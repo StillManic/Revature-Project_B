@@ -8,21 +8,25 @@ public class Main {
 	private static Player player = new Player();
 	private static boolean quit;
 	
-	private static void printRoom(Player player) {
-		if (player.currentRoom != null) {
-			System.out.println(player.currentRoom.getName());
-			System.out.println();
-			System.out.println(player.currentRoom.getLongDescription());
-			System.out.println();
+	private static void printRoom() {
+		System.out.println("Enter \"quit\" to quit the game.\n");
+		
+		if (player.getCurrentRoom() != null) {
+			System.out.println(player.getCurrentRoom().getName());						// Print room name
+			System.out.println();														// Blank line
+			System.out.println(player.getCurrentRoom().getLongDescription());			// Print long description
+			System.out.println();														// Blank line
 			
+			// Begin printing exits
 			System.out.println("Exits:");
-			if (player.currentRoom.getName().equals("Master Bedroom Closet")) {
+			if (player.getCurrentRoom().getName().equals("Master Bedroom Closet")) {	// Special case for the closet
 				System.out.println("????");
 				return;
 			}
 			
-			for (int i = 0; i < player.currentRoom.getExits().length; i++) {
-				Room exit = player.currentRoom.getExits()[i];
+			// Print all exits for the current room
+			for (int i = 0; i < player.getCurrentRoom().getExits().length; i++) {
+				Room exit = player.getCurrentRoom().getExits()[i];
 				
 				if (exit != null) {
 					switch (i) {
@@ -33,33 +37,63 @@ public class Main {
 					}
 				}
 			}
+			
+			System.out.print("> ");
 		}
 	}
 	
 	private static String[] collectInput(Scanner scanner) {
 		String[] input = null;
 		
+		// Get the next line from the scanner, convert it to lowercase, then split on spaces.
 		if (scanner.hasNext()) input = scanner.nextLine().toLowerCase().split(" ");
 		
 		return input;
 	}
 	
-	private static boolean parse(String[] command) {
-		if (command == null || command.length == 0) return false;
+	private static void parse(String[] command) {
+		if (command == null || command.length == 0) return;
 		
 		switch (command[0]) {
+			case "north":
+			case "south":
+			case "west":
+			case "east":
 			case "go":
-				if (command.length == 2) {
-					player.currentRoom = player.currentRoom.getExit(command[1]);
-					return true;
+				if (command[0].equals("go")) {
+					if (command.length == 2) {
+						if (player.getCurrentRoom().getExit(command[1]) == null) {
+							System.out.println("You can't go that way.");
+							System.out.print("> ");
+							break;
+						} else {
+							player.setCurrentRoom(player.getCurrentRoom().getExit(command[1]));
+							printRoom();
+							break;
+						}
+					} else {
+						System.out.println("Where would you like to go?");
+						System.out.print("> ");
+						break;
+					}
 				} else {
-					System.out.println("\"go\" must be followed by a valid direction.");
-					return false;
+					if (player.getCurrentRoom().getExit(command[0]) == null) {
+						System.out.println("You can't go that way.");
+						System.out.print("> ");
+						break;
+					} else {
+						player.setCurrentRoom(player.getCurrentRoom().getExit(command[0]));
+						printRoom();
+						break;
+					}
 				}
-			case "quit": quit = true; return true;
+			case "quit": quit = true; break;
+			case "room": printRoom(); break;
+			default:
+				System.out.println("I don't understand.");
+				System.out.print("> ");
+				break;
 		}
-		
-		return false;
 	}
 	
 	public static void main(String[] args) {
@@ -67,10 +101,9 @@ public class Main {
 		player = new Player(RoomManager.getStartingRoom());
 		Scanner scanner = new Scanner(System.in);
 		
+		printRoom();
 		do {	// while (!quit)
-			System.out.println("Enter \"quit\" to quit the game.\n");
-			printRoom(player);
-			if (!parse(collectInput(scanner))) System.out.println("Please enter a valid command.");
+			parse(collectInput(scanner));
 		} while (!quit);
 		
 		System.out.println("Thanks for playing!");
