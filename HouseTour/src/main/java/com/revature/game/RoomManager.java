@@ -3,7 +3,7 @@ package com.revature.game;
 import com.revature.fixtures.Room;
 
 public class RoomManager {
-	private static Room[] rooms = new Room[14];
+//	private static Room[] rooms = new Room[14];
 	private static Room startingRoom;
 	
 	public static void init() {
@@ -84,25 +84,25 @@ public class RoomManager {
 		
 		startingRoom = outside;
 		
-		rooms[0]  = outside;
-		rooms[1]  = frontPorch;
-		rooms[2]  = backPorch;
-		rooms[3]  = livingRoom;
-		rooms[4]  = washRoom;
-		rooms[5]  = masterBedroom;
-		rooms[6]  = masterBathroom;
-		rooms[7]  = masterCloset;
-		rooms[8]  = diningRoom;
-		rooms[9]  = hallway;
-		rooms[10] = bedroom1;
-		rooms[11] = bedroom2;
-		rooms[12] = bathroom;
-		rooms[13] = kitchen;
+//		rooms[0]  = outside;
+//		rooms[1]  = frontPorch;
+//		rooms[2]  = backPorch;
+//		rooms[3]  = livingRoom;
+//		rooms[4]  = washRoom;
+//		rooms[5]  = masterBedroom;
+//		rooms[6]  = masterBathroom;
+//		rooms[7]  = masterCloset;
+//		rooms[8]  = diningRoom;
+//		rooms[9]  = hallway;
+//		rooms[10] = bedroom1;
+//		rooms[11] = bedroom2;
+//		rooms[12] = bathroom;
+//		rooms[13] = kitchen;
 	}
 	
-	public static Room[] getRooms() {
-		return rooms;
-	}
+//	public static Room[] getRooms() {
+//		return rooms;
+//	}
 	
 	public static Room getStartingRoom() {
 		return startingRoom;

@@ -10,13 +10,13 @@ public class Main {
 	
 	private static void printRoom(Player player) {
 		if (player.currentRoom != null) {
-			System.out.println(player.currentRoom.name);
+			System.out.println(player.currentRoom.getName());
 			System.out.println();
-			System.out.println(player.currentRoom.longDescription);
+			System.out.println(player.currentRoom.getLongDescription());
 			System.out.println();
 			
 			System.out.println("Exits:");
-			if (player.currentRoom.name.equals("Master Bedroom Closet")) {
+			if (player.currentRoom.getName().equals("Master Bedroom Closet")) {
 				System.out.println("????");
 				return;
 			}
@@ -26,10 +26,10 @@ public class Main {
 				
 				if (exit != null) {
 					switch (i) {
-						case 0: System.out.println("[North]: " + exit.shortDescription); break;
-						case 1: System.out.println("[South]: " + exit.shortDescription); break;
-						case 2: System.out.println("[West]:  " + exit.shortDescription); break;
-						case 3: System.out.println("[East]:  " + exit.shortDescription); break;
+						case 0: System.out.println("[North]: " + exit.getShortDescription()); break;
+						case 1: System.out.println("[South]: " + exit.getShortDescription()); break;
+						case 2: System.out.println("[West]:  " + exit.getShortDescription()); break;
+						case 3: System.out.println("[East]:  " + exit.getShortDescription()); break;
 					}
 				}
 			}
