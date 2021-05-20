@@ -4,13 +4,17 @@ public abstract class Fixture {
 	private String name, shortDescription, longDescription;
 	
 	public Fixture(String name, String shortDescription, String longDescription) {
-		this.name = name;
+		this.name = name.toLowerCase();
 		this.shortDescription = shortDescription;
 		this.longDescription = longDescription;
 	}
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getCapitalName() {
+		return ("" + this.name.charAt(0)).toUpperCase() + this.name.substring(1, this.name.length());
 	}
 	
 	public String getShortDescription() {

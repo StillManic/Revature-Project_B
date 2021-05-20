@@ -1,5 +1,7 @@
 package com.revature.game;
 
+import com.revature.fixtures.Letter;
+import com.revature.fixtures.MailBox;
 import com.revature.fixtures.Room;
 
 public class RoomManager {
@@ -11,12 +13,12 @@ public class RoomManager {
 				"There is a house in front of you with a mailbox.\n" + 
 				"Two paths lead West and East, each rounding a corner.");
 		
-		Room frontPorch = new Room("Front Porch", "A small porch", "You are standing on a small porch facing East.\n" +
+		Room frontPorch = new Room("Front Porch", "The front porch", "You are standing on a small porch facing East.\n" +
 				"In front of you is an open door that leads to a large room.\n" + 
 				"You can see a desk against the North wall a few feet inside of the room.\n" +
 				"A path leads to the South");
 		
-		Room backPorch = new Room("Back Porch", "A small porch", "You are standing on a small porch facing West.\n" +
+		Room backPorch = new Room("Back Porch", "The back porch", "You are standing on a small porch facing West.\n" +
 				"In front of you is an open door that leads to a small room.\n" +
 				"On the North wall you see a washer and dryer. On the wall across the room is a furnace.\n" + 
 				"A path leads to the South");
@@ -80,6 +82,13 @@ public class RoomManager {
 		bedroom2.initExits(null, null, null, hallway);
 		bathroom.initExits(null, null, hallway, null);
 		kitchen.initExits(washRoom, diningRoom, null, null);
+		
+		
+		
+		Letter letter = new Letter("letter", "a letter", "\n\n\tHey,\n\n\t   I left the keys to the closet in a drawer in the kitchen.\n\n\t\t\t\t\t\t\t\t   -John\n\n\n\n\t\t\t\t\tPS: You've been eaten by a grue...\n");
+		MailBox mailbox = new MailBox("mailbox", "a small mailbox", "An average-size metal mailbox on a pole.", letter);
+		outside.addFixture(mailbox.getName(), mailbox);
+		
 		
 		
 		startingRoom = outside;

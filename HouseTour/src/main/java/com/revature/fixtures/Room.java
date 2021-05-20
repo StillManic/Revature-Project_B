@@ -1,5 +1,8 @@
 package com.revature.fixtures;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Room extends Fixture {
 	/*
 	 * [0]: North
@@ -8,6 +11,8 @@ public class Room extends Fixture {
 	 * [3]: East
 	 */
 	private Room[] exits = new Room[4];
+	private Map<String, Fixture> fixtures = new HashMap<String, Fixture>();
+	private boolean hasFixtures = false;
 	
 	public Room(String name, String shortDescription, String longDescription) {
 		super(name, shortDescription, longDescription);
@@ -32,5 +37,18 @@ public class Room extends Fixture {
 			case "east":  return this.exits[3];
 			default: return null;
 		}
+	}
+	
+	public void addFixture(String fixtureName, Fixture fixture) {
+		this.fixtures.put(fixtureName.toLowerCase(), fixture);
+		this.hasFixtures = true;
+	}
+	
+	public Fixture getFixture(String fixtureName) {
+		return this.fixtures.get(fixtureName);
+	}
+	
+	public boolean hasFixtures() {
+		return this.hasFixtures;
 	}
 }
