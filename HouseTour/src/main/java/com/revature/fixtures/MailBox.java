@@ -26,8 +26,9 @@ public class MailBox extends Fixture implements Openable {
 	}
 	
 	@Override
-	public void open() {
+	public boolean open() {
 		this.isOpen = true;
+		return true;
 	}
 	
 	@Override

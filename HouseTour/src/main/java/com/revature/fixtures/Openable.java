@@ -1,7 +1,7 @@
 package com.revature.fixtures;
 
 public interface Openable {
-	void open();
+	boolean open();
 	
 	void close();
 	
