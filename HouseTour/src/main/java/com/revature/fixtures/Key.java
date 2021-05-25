@@ -1,12 +1,12 @@
 package com.revature.fixtures;
 
-public class Letter extends Fixture {
-	public Letter(String name, String shortDescription, String longDescription) {
+public class Key extends Fixture {
+	public Key(String name, String shortDescription, String longDescription) {
 		super(name, shortDescription, longDescription);
 	}
-	
+
+	@Override
 	public void examine() {
-		System.out.println("The letter says:");
 		System.out.println(this.getLongDescription());
 	}
 }

@@ -24,4 +24,6 @@ public abstract class Fixture {
 	public String getLongDescription() {
 		return this.longDescription;
 	}
+	
+	public abstract void examine();
 }

@@ -10,7 +10,8 @@ public class Room extends Fixture {
 	 * [2]: West
 	 * [3]: East
 	 */
-	private Room[] exits = new Room[4];
+//	private Room[] exits = new Room[4];
+	private Door[] exits = new Door[4];
 	private Map<String, Fixture> fixtures = new HashMap<String, Fixture>();
 	private boolean hasFixtures = false;
 	
@@ -18,18 +19,21 @@ public class Room extends Fixture {
 		super(name, shortDescription, longDescription);
 	}
 	
-	public void initExits(Room north, Room south, Room west, Room east) {
+	public void initExits(Door north, Door south, Door west, Door east) {
 		this.exits[0] = north;
 		this.exits[1] = south;
 		this.exits[2] = west;
 		this.exits[3] = east;
 	}
 	
-	public Room[] getExits() {
+	@Override
+	public void examine() {}
+	
+	public Door[] getExits() {
 		return this.exits;
 	}
 	
-	public Room getExit(String direction) {
+	public Door getExit(String direction) {
 		switch (direction.toLowerCase()) {
 			case "north": return this.exits[0];
 			case "south": return this.exits[1];

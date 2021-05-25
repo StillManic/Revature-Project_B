@@ -3,22 +3,41 @@ package com.revature.fixtures;
 public class Door extends Fixture implements Openable, Lockable {
 	private boolean isOpen = false;
 	private boolean isLocked = false;
-	private Room room;
+	private boolean isActualDoor = true;
+//	private Room[] rooms = new Room[2];
+	private Room roomA, roomB;
 	
-	public Door(String name, String shortDescription, String longDescription, Room room, boolean isOpen, boolean isLocked) {
+	public Door(String name, String shortDescription, String longDescription, Room roomA, Room roomB) {
 		super(name, shortDescription, longDescription);
-		this.room = room;
+		this.roomA = roomA;
+		this.roomB = roomB;
+		this.isActualDoor = false;
+		this.isOpen = true;
+		this.isLocked = false;
+	}
+	
+	public Door(String name, String shortDescription, String longDescription, Room roomA, Room roomB, boolean isOpen, boolean isLocked) {
+		super(name, shortDescription, longDescription);
+		this.roomA = roomA;
+		this.roomB = roomB;
+		this.isActualDoor = true;
 		this.isOpen = isOpen;
 		this.isLocked = isLocked;
 	}
 
-	public Room getRoom() {
-		if (this.isOpen) return this.room;
-		return null;
+	public Room getOppositeRoom(String currentRoomName) {
+		if (currentRoomName.toLowerCase().equals(this.roomA.getName())) return this.roomB;
+		else if (currentRoomName.toLowerCase().equals(this.roomB.getName())) return this.roomA;
+		else return null;
+	}
+	
+	public boolean isActualDoor() {
+		return this.isActualDoor;
 	}
 	
 	@Override
 	public boolean open() {
+		if (!this.isActualDoor) return false;
 		if (!this.isLocked) {
 			this.isOpen = true;
 			return true;
@@ -27,8 +46,12 @@ public class Door extends Fixture implements Openable, Lockable {
 	}
 
 	@Override
-	public void close() {
-		this.isOpen = false;
+	public boolean close() {
+		if (this.isActualDoor) {
+			this.isOpen = false;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -43,7 +66,7 @@ public class Door extends Fixture implements Openable, Lockable {
 	
 	@Override
 	public boolean lock() {
-		if (!this.isOpen) {
+		if (this.isActualDoor && !this.isOpen) {
 			this.isLocked = true;
 			return true;
 		}
@@ -53,5 +76,10 @@ public class Door extends Fixture implements Openable, Lockable {
 	@Override
 	public boolean isLocked() {
 		return this.isLocked;
+	}
+	
+	@Override
+	public void examine() {
+		
 	}
 }

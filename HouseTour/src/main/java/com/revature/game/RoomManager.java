@@ -1,14 +1,20 @@
 package com.revature.game;
 
+import com.revature.fixtures.Door;
+import com.revature.fixtures.Drawer;
+import com.revature.fixtures.Key;
 import com.revature.fixtures.Letter;
 import com.revature.fixtures.MailBox;
 import com.revature.fixtures.Room;
 
 public class RoomManager {
-//	private static Room[] rooms = new Room[14];
 	private static Room startingRoom;
 	
 	public static void init() {
+		/*
+		 * Define Rooms
+		 */
+		
 		Room outside = new Room("Outside", "Outside", "You find yourself outside facing North.\n" +
 				"There is a house in front of you with a mailbox.\n" + 
 				"Two paths lead West and East, each rounding a corner.");
@@ -68,50 +74,60 @@ public class RoomManager {
 				"Next to the sink, underneath the countertop, is a dishwasher. Next to the dishwasher is a stove with an oven.\n" +
 				"To the North is a small room with a washer and dryer.\nTo the South is a dining room.");
 		
-		outside.initExits(null, null, frontPorch, backPorch);	// N, S, W, E
-		frontPorch.initExits(null, outside, null, livingRoom);
-		backPorch.initExits(null, outside, washRoom, null);
-		livingRoom.initExits(masterBedroom, null, outside, diningRoom);
-		washRoom.initExits(null, kitchen, null, backPorch);
-		masterBedroom.initExits(masterCloset, livingRoom, null, masterBathroom);
-		masterBathroom.initExits(null, null, masterBedroom, null);
-		masterCloset.initExits(null, masterBedroom, null, null);
-		diningRoom.initExits(kitchen, hallway, livingRoom, null);
-		hallway.initExits(diningRoom, bedroom1, bedroom2, bathroom);
-		bedroom1.initExits(hallway, null, null, null);
-		bedroom2.initExits(null, null, null, hallway);
-		bathroom.initExits(null, null, hallway, null);
-		kitchen.initExits(washRoom, diningRoom, null, null);
+		/*
+		 * Initialize Doors
+		 */
 		
+		Door outsideAndFrontPorchDoor = new Door("outside and front porch door", "Outside and front porch door", "Not actually a door.", outside, frontPorch);
+		Door outsideAndBackPorchDoor = new Door("outside and back porch door", "Outside and back porch door", "Not actually a door.", outside, backPorch);
+		outside.initExits(null, null, outsideAndFrontPorchDoor, outsideAndBackPorchDoor);
 		
+		Door frontPorchAndLivingRoomDoor = new Door("front porch and living room door", "Front porch and living room door", "A fancy, white, wooden door.", frontPorch, livingRoom, false, false);
+		frontPorch.initExits(null, outsideAndFrontPorchDoor, null, frontPorchAndLivingRoomDoor);
+		
+		Door backPorchAndWashRoomDoor = new Door("back porch and wash room door", "Back porch and wash room door", "A plane, beige, sheet metal door.", backPorch, washRoom, false, false);
+		backPorch.initExits(null, outsideAndBackPorchDoor, backPorchAndWashRoomDoor, null);
+		
+		Door livingRoomAndMasterBedroomDoor = new Door("living room and master bedroom door", "Living room and master bedroom door", "A plane, white, wooden door.", livingRoom, masterBedroom, true, false);
+		Door livingRoomAndDiningRoomDoor = new Door("living room and dining room door", "Living room and dining room door", "Not actually a door.", livingRoom, diningRoom);
+		livingRoom.initExits(livingRoomAndMasterBedroomDoor, null, frontPorchAndLivingRoomDoor, livingRoomAndDiningRoomDoor);
+		
+		Door masterBedroomAndMasterClosetDoor = new Door("master bedroom and master closet door", "Master bedroom and master closet door", "A plane, white, yet ominous-looking wooden door.", masterBedroom, masterCloset, false, true);
+		Door masterBedroomAndMasterBathroomDoor = new Door("master bedroom and master bathroom door", "Master bedroom and master bathroom door", "A plane, white, wooden door.", masterBedroom, masterBathroom, true, false);
+		masterBedroom.initExits(masterBedroomAndMasterClosetDoor, livingRoomAndMasterBedroomDoor, null, masterBedroomAndMasterBathroomDoor);
+		masterBathroom.initExits(null, null, masterBedroomAndMasterBathroomDoor, null);
+		masterCloset.initExits(null, masterBedroomAndMasterClosetDoor, null, null);
+		
+		Door diningRoomAndKitchenDoor = new Door("dining room and kitchen door", "Dining room and kitchen door", "Not actually a door.", diningRoom, kitchen);
+		Door diningRoomAndHallwayDoor = new Door("dining room and hallway door", "Dining room and hallway door", "Not actually a door.", diningRoom, hallway);
+		diningRoom.initExits(diningRoomAndKitchenDoor, diningRoomAndHallwayDoor, livingRoomAndDiningRoomDoor, null);
+		
+		Door kitchenAndWashRoomDoor = new Door("kitchen and washroom door", "Kitchen and washroom door", "Not actually a door.", kitchen, washRoom);
+		washRoom.initExits(null, kitchenAndWashRoomDoor, null, backPorchAndWashRoomDoor);
+		kitchen.initExits(kitchenAndWashRoomDoor, diningRoomAndKitchenDoor, null, null);
+		
+		Door hallwayAndBathroomDoor = new Door("hallway and bathroom door", "Hallway and bathroom door", "A plane, white, wooden door.", hallway, bathroom, true, false);
+		Door hallwayAndBedroom1Door = new Door("hallway and small bedroom door", "Hallway and small bedroom door", "A plane, white, wooden door.", hallway, bedroom1, true, false);
+		Door hallwayAndBedroom2Door = new Door("hallway and larger bedroom door", "Hallway and larger bedroom door", "A plane, white, wooden door.", hallway, bedroom2, true, false);
+		hallway.initExits(diningRoomAndHallwayDoor, hallwayAndBedroom1Door, hallwayAndBedroom2Door, hallwayAndBathroomDoor);
+		bathroom.initExits(null, null, hallwayAndBathroomDoor, null);
+		bedroom1.initExits(hallwayAndBedroom1Door, null, null, null);
+		bedroom2.initExits(null, null, hallwayAndBedroom2Door, null);
+		
+		/*
+		 * Initialize items and in-room fixtures.
+		 */
 		
 		Letter letter = new Letter("letter", "a letter", "\n\n\tHey,\n\n\t   I left the keys to the closet in a drawer in the kitchen.\n\n\t\t\t\t\t\t\t\t   -John\n\n\n\n\t\t\t\t\tPS: You've been eaten by a grue...\n");
 		MailBox mailbox = new MailBox("mailbox", "a small mailbox", "An average-size metal mailbox on a pole.", letter);
 		outside.addFixture(mailbox.getName(), mailbox);
 		
-		
+		Key closetKey = new Key("key", "a small brass key", "A small brass key.");
+		Drawer drawer = new Drawer("drawer", "a drawer", "A small white drawer with a brass handle.", closetKey);
+		kitchen.addFixture(drawer.getName(), drawer);
 		
 		startingRoom = outside;
-		
-//		rooms[0]  = outside;
-//		rooms[1]  = frontPorch;
-//		rooms[2]  = backPorch;
-//		rooms[3]  = livingRoom;
-//		rooms[4]  = washRoom;
-//		rooms[5]  = masterBedroom;
-//		rooms[6]  = masterBathroom;
-//		rooms[7]  = masterCloset;
-//		rooms[8]  = diningRoom;
-//		rooms[9]  = hallway;
-//		rooms[10] = bedroom1;
-//		rooms[11] = bedroom2;
-//		rooms[12] = bathroom;
-//		rooms[13] = kitchen;
 	}
-	
-//	public static Room[] getRooms() {
-//		return rooms;
-//	}
 	
 	public static Room getStartingRoom() {
 		return startingRoom;

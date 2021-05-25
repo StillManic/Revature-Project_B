@@ -32,12 +32,16 @@ public class MailBox extends Fixture implements Openable {
 	}
 	
 	@Override
-	public void close() {
+	public boolean close() {
 		this.isOpen = false;
+		return true;
 	}
 	
 	@Override
 	public boolean isOpen() {
 		return this.isOpen;
 	}
+	
+	@Override
+	public void examine() {}
 }

@@ -26,11 +26,8 @@ public class Player {
 	
 	public boolean addItemToInventory(Fixture item) {
 		if (item == null) return false;
-		
-		switch (item.getName()) {
-			case "letter": this.inventory.put(item.getName(), item); return true;
-			default: return false;
-		}
+		this.inventory.put(item.getName(), item);
+		return true;
 	}
 	
 	public Fixture getItemFromInventory(String name) {
