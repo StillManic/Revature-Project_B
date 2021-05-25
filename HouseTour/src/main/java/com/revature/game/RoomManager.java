@@ -46,7 +46,7 @@ public class RoomManager {
 				"On the North wall is a mirror above a large counter top with a sink. Next to the sink is a toilet.\n" + 
 				"On the East wall is a large bathtub with a shower.\nA door on the West wall leads to a bedroom.");
 		
-		Room masterCloset = new Room("Master Bedroom Closet", "A large walk-in closet", "You are standing in a walk-in closet.\nIt is dark.\nFind the door.");
+		Room theAbyss = new Room("The Abyss", "A deep dark abyss of nothingness.", "You enter into the abyss, and can't find your way back.");
 		
 		Room diningRoom = new Room("Dining Room", "The dining room", "You are standing next to a large table and 4 chairs, facing North.\n" +
 				"Against the wall behind you are a couple of bookcases.\n" +
@@ -92,11 +92,11 @@ public class RoomManager {
 		Door livingRoomAndDiningRoomDoor = new Door("living room and dining room door", "Living room and dining room door", "Not actually a door.", livingRoom, diningRoom);
 		livingRoom.initExits(livingRoomAndMasterBedroomDoor, null, frontPorchAndLivingRoomDoor, livingRoomAndDiningRoomDoor);
 		
-		Door masterBedroomAndMasterClosetDoor = new Door("master bedroom and master closet door", "Master bedroom and master closet door", "A plane, white, yet ominous-looking wooden door.", masterBedroom, masterCloset, false, true);
+		Door masterBedroomAndAbyssDoor = new Door("master bedroom and abyss door", "Master bedroom and abyss door", "A plane, white, yet ominous-looking wooden door.", masterBedroom, theAbyss, false, true);
 		Door masterBedroomAndMasterBathroomDoor = new Door("master bedroom and master bathroom door", "Master bedroom and master bathroom door", "A plane, white, wooden door.", masterBedroom, masterBathroom, true, false);
-		masterBedroom.initExits(masterBedroomAndMasterClosetDoor, livingRoomAndMasterBedroomDoor, null, masterBedroomAndMasterBathroomDoor);
+		masterBedroom.initExits(masterBedroomAndAbyssDoor, livingRoomAndMasterBedroomDoor, null, masterBedroomAndMasterBathroomDoor);
 		masterBathroom.initExits(null, null, masterBedroomAndMasterBathroomDoor, null);
-		masterCloset.initExits(null, masterBedroomAndMasterClosetDoor, null, null);
+		theAbyss.initExits(null, masterBedroomAndAbyssDoor, null, null);
 		
 		Door diningRoomAndKitchenDoor = new Door("dining room and kitchen door", "Dining room and kitchen door", "Not actually a door.", diningRoom, kitchen);
 		Door diningRoomAndHallwayDoor = new Door("dining room and hallway door", "Dining room and hallway door", "Not actually a door.", diningRoom, hallway);

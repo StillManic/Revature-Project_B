@@ -29,8 +29,9 @@ public class Main {
 			
 			// Begin printing exits
 			System.out.println("Exits:");
-			if (player.getCurrentRoom().getName().equals("master bedroom closet")) {	// Special case for the closet
-				System.out.println("????");
+			if (player.getCurrentRoom().getName().equals("the abyss")) {				// Special case for the abyss
+				System.out.println("????\n");
+				quit = true;
 				return;
 			}
 			
@@ -43,8 +44,8 @@ public class Main {
 					
 					// Change the short description that gets displayed based on if the door is closed or locked
 					if (exit.isOpen()) description = oppositeRoom.getShortDescription();
-					else if (exit.isLocked()) description = exit.getShortDescription() + " It is locked.";
-					else description = exit.getShortDescription();
+					else if (exit.isLocked()) description = exit.getLongDescription() + " It is locked.";
+					else description = exit.getLongDescription();
 					
 //					String description = exit.isOpen() ? oppositeRoom.getShortDescription() : "A closed door.";
 					switch (i) {
@@ -259,8 +260,8 @@ public class Main {
 					if (player.hasItem("key")) {
 						if (command[3].equalsIgnoreCase("door")) {
 							if (player.getCurrentRoom().getName().equals("master bedroom")) {
-								Door closetDoor = player.getCurrentRoom().getExit("north");		// closet door is to the "north" exit
-								closetDoor.unlock();
+								Door abyssDoor = player.getCurrentRoom().getExit("north");		// abyss door is to the "north" exit
+								abyssDoor.unlock();
 								System.out.println("You unlocked the door.");
 								break;
 							}
